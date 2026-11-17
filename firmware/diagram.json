@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "author": "Gabriel Botelho Romao e Thor Ferreira Camargo",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "board-ssd1306",
+      "id": "oled",
+      "top": -112.06,
+      "left": 172.83,
+      "attrs": { "i2cAddress": "0x3c" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnChegada",
+      "top": 140,
+      "left": 200,
+      "attrs": { "color": "green", "label": "CHEGADA", "bounce": "1" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnAtendido",
+      "top": 210,
+      "left": 200,
+      "attrs": { "color": "blue", "label": "ATENDIDO", "bounce": "1" }
+    },
+    { "type": "wokwi-led", "id": "ledOk", "top": 30, "left": -110, "attrs": { "color": "limegreen", "label": "OK" } },
+    { "type": "wokwi-led", "id": "ledErro", "top": 30, "left": -60, "attrs": { "color": "red", "label": "ERRO" } },
+    { "type": "wokwi-resistor", "id": "rOk", "top": 120, "left": -120, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "rErro", "top": 120, "left": -70, "rotate": 90, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "oled:GND", "esp:GND.2", "black", [] ],
+    [ "oled:VCC", "esp:3V3", "red", [] ],
+    [ "oled:SDA", "esp:21", "blue", [] ],
+    [ "oled:SCL", "esp:22", "orange", [] ],
+    [ "btnChegada:1.l", "esp:18", "green", [] ],
+    [ "btnChegada:2.l", "esp:GND.3", "black", [] ],
+    [ "btnAtendido:1.l", "esp:19", "blue", [] ],
+    [ "btnAtendido:2.l", "esp:GND.3", "black", [] ],
+    [ "esp:25", "rOk:2", "green", [] ],
+    [ "rOk:1", "ledOk:A", "green", [] ],
+    [ "ledOk:C", "esp:GND.1", "black", [] ],
+    [ "esp:26", "rErro:2", "red", [] ],
+    [ "rErro:1", "ledErro:A", "red", [] ],
+    [ "ledErro:C", "esp:GND.1", "black", [] ]
+  ],
+  "dependencies": {}
+}

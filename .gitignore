@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+testes/teste_fila
+# Enunciado do professor: material da disciplina, nao vai para o repositorio publico.
+*.pdf

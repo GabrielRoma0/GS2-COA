@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fila Virtual · Mapiii</title>
+<meta name="description" content="Painel da fila virtual do posto de atendimento à pessoa com deficiência (protótipo de estudo).">
+<style>
+  :root {
+    --fundo: #f6f4ef; --cartao: #ffffff; --texto: #1d1b18; --suave: #5c574f;
+    --borda: #ddd7cc; --marca: #1f5f8b; --marca-texto: #ffffff;
+    --ok: #1d6b3a; --erro: #a3271b; --aviso-fundo: #fff4d6; --aviso-borda: #c99a1c;
+    --grafico: #1f5f8b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #15171a; --cartao: #1f2226; --texto: #f1efe9; --suave: #b9b4ab;
+      --borda: #3a3e44; --marca: #7cc0ee; --marca-texto: #0d1a24;
+      --ok: #7fd49a; --erro: #ff9b8f; --aviso-fundo: #3a3220; --aviso-borda: #c99a1c;
+      --grafico: #7cc0ee;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fundo); color: var(--texto);
+         font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.15rem; margin: 0 0 12px; }
+  .sub { color: var(--suave); margin: 0 0 16px; }
+  .aviso { background: var(--aviso-fundo); border-left: 4px solid var(--aviso-borda);
+           padding: 10px 14px; border-radius: 6px; margin-bottom: 20px; font-size: .95rem; }
+  .conexao { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+  .ponto { width: 12px; height: 12px; border-radius: 50%; background: var(--suave); }
+  .conexao[data-estado="ok"] .ponto { background: var(--ok); }
+  .conexao[data-estado="erro"] .ponto { background: var(--erro); }
+  .grade { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 18px 0; }
+  .cartao { background: var(--cartao); border: 1px solid var(--borda); border-radius: 12px; padding: 16px 18px; }
+  .rotulo { color: var(--suave); font-size: .95rem; margin: 0; }
+  .numero { font-size: 3rem; font-weight: 800; line-height: 1.1; margin: 4px 0; font-variant-numeric: tabular-nums; }
+  .detalhe { margin: 0; color: var(--suave); font-size: .92rem; }
+  .destaque { border: 2px solid var(--marca); }
+  .botoes { display: flex; flex-wrap: wrap; gap: 12px; margin: 8px 0 4px; }
+  button { font: inherit; font-weight: 700; min-height: 48px; padding: 10px 18px; border-radius: 10px;
+           border: 2px solid var(--marca); background: var(--marca); color: var(--marca-texto); cursor: pointer; }
+  button.secundario { background: transparent; color: var(--marca); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid var(--aviso-borda); outline-offset: 2px; }
+  a { color: var(--marca); }
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--borda); }
+  th { color: var(--suave); font-weight: 600; }
+  td.erro { color: var(--erro); font-weight: 700; }
+  .rolagem { overflow-x: auto; max-height: 360px; overflow-y: auto; }
+  svg { width: 100%; height: 140px; display: block; }
+  .linha-cab { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .comparacao { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; margin-top: 8px; font-size: .95rem; }
+  .so-leitor { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  footer { margin-top: 28px; color: var(--suave); font-size: .9rem; }
+  code { font-size: .9em; }
+</style>
+</head>
+<body>
+<main>
+  <header class="linha-cab">
+    <div>
+      <h1>Fila virtual do posto</h1>
+      <p class="sub">Atendimento à pessoa com deficiência · <span id="posto">—</span></p>
+    </div>
+    <p class="conexao" id="conexao" data-estado="espera" role="status">
+      <span class="ponto" aria-hidden="true"></span><span id="conexaoTexto">Conectando…</span>
+    </p>
+  </header>
+
+  <p class="aviso">Protótipo de estudo, não é canal oficial. O tempo de espera é uma <strong>estimativa</strong>;
+    o modelo foi treinado com <strong>dados simulados</strong>. <span id="avisoDemo"></span></p>
+
+  <section aria-labelledby="t-agora">
+    <h2 id="t-agora" class="so-leitor">Situação agora</h2>
+    <div class="grade" aria-live="polite" aria-atomic="false">
+      <div class="cartao destaque">
+        <p class="rotulo">Pessoas na fila agora</p>
+        <p class="numero" id="fila">—</p>
+        <p class="detalhe">contando quem está sendo atendido</p>
+      </div>
+      <div class="cartao destaque">
+        <p class="rotulo">Espera estimada para quem chega</p>
+        <p class="numero" id="esperaIa">—</p>
+        <div class="comparacao">
+          <span>Previsão da IA (regressão)</span><strong id="esperaIa2">—</strong>
+          <span>Pela média histórica</span><strong id="esperaConv">—</strong>
+        </div>
+      </div>
+      <div class="cartao">
+        <p class="rotulo">Atendimentos concluídos</p>
+        <p class="numero" id="concluidos">—</p>
+        <p class="detalhe"><span id="chegadas">—</span> chegadas · <span id="recusas">—</span> operações bloqueadas</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cartao" aria-labelledby="t-botoes">
+    <h2 id="t-botoes">Botões virtuais</h2>
+    <p class="detalhe">Fazem o mesmo que os botões físicos do ESP32: o comando vai pela rede até a placa, que valida e responde.</p>
+    <div class="botoes">
+      <button id="btnChegada" disabled>Registrar chegada</button>
+      <button id="btnAtendido" class="secundario" disabled>Concluir atendimento</button>
+    </div>
+  </section>
+
+  <section class="cartao" style="margin-top:14px" aria-labelledby="t-grafico">
+    <h2 id="t-grafico">Fila ao longo do tempo</h2>
+    <svg id="grafico" viewBox="0 0 600 140" role="img" aria-label="Gráfico do tamanho da fila nas últimas atualizações"></svg>
+  </section>
+
+  <section class="cartao" style="margin-top:14px" aria-labelledby="t-eventos">
+    <div class="linha-cab">
+      <h2 id="t-eventos">Registro de eventos</h2>
+      <button id="btnCsv" class="secundario">Baixar CSV</button>
+    </div>
+    <div class="rolagem" tabindex="0" aria-label="Tabela de eventos, role para ver mais">
+      <table>
+        <thead><tr><th scope="col">#</th><th scope="col">Horário</th><th scope="col">Evento</th><th scope="col">Fila depois</th><th scope="col">Origem</th></tr></thead>
+        <tbody id="eventos"><tr><td colspan="5">Nenhum evento recebido ainda.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="cartao" style="margin-top:14px" aria-labelledby="t-tec">
+    <h2 id="t-tec">Dados técnicos do dispositivo</h2>
+    <div class="comparacao">
+      <span>Média histórica de atendimento</span><strong id="mediaHist">—</strong>
+      <span>Média dos últimos 5 atendimentos</span><strong id="mediaUlt5">—</strong>
+      <span>Atendimentos medidos pela placa</span><strong id="medidos">—</strong>
+      <span>Memória livre (heap) / mínima</span><strong id="heap">—</strong>
+      <span>Sinal Wi-Fi (RSSI)</span><strong id="rssi">—</strong>
+      <span>Ligado há</span><strong id="uptime">—</strong>
+      <span>Última atualização recebida</span><strong id="ultimaAtualizacao">—</strong>
+    </div>
+  </section>
+
+  <footer>
+    Comunicação: navegador ⇄ <code id="broker"></code> (MQTT sobre WebSocket) ⇄ ESP32.
+    Tópico: <code id="topico"></code>. Para outro posto, abra com <code>?posto=nome</code>.
+  </footer>
+</main>
+
+<script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const POSTO = params.get('posto') || 'mapiii-posto-pcd-570589';
+  const BROKER = params.get('broker') || 'wss://broker.hivemq.com:8884/mqtt';
+  const BASE = 'fiap-gs2026/mapiii-fila/' + POSTO + '/';
+  const SEM_DADOS_MS = 15000;          // a placa publica a cada 5 s; 15 s sem nada = problema
+  const MAX_EVENTOS = 200, MAX_PONTOS = 120;
+
+  const $ = (id) => document.getElementById(id);
+  $('posto').textContent = POSTO;
+  $('broker').textContent = BROKER.replace(/^wss?:\/\//, '').replace(/\/mqtt$/, '');
+  $('topico').textContent = BASE + '#';
+
+  const eventos = [];                  // {seq, instante, tipo, fila, origem}
+  const pontos = [];                   // {t, fila}
+  let ultimoEstadoEm = 0, conectado = false;
+
+  const NOMES = {
+    chegada: 'Chegada', atendido: 'Atendimento concluído',
+    erro_fila_vazia: 'Bloqueado: fila vazia', erro_fila_cheia: 'Bloqueado: fila cheia'
+  };
+  const minutos = (m) => (m == null ? '—' : (m < 1 ? 'menos de 1 min' : Math.round(m) + ' min'));
+  const hora = (s) => {
+    if (!s) return '—';
+    if (s < 1700000000) return 'boot + ' + s + ' s';      // placa ainda sem NTP
+    return new Date(s * 1000).toLocaleTimeString('pt-BR');
+  };
+
+  function mostrarConexao(estado, texto) {
+    $('conexao').dataset.estado = estado;
+    $('conexaoTexto').textContent = texto;
+  }
+
+  function atualizarEstado(e) {
+    ultimoEstadoEm = Date.now();
+    $('fila').textContent = e.fila;
+    $('esperaIa').textContent = minutos(e.espera_ia_min);
+    $('esperaIa2').textContent = minutos(e.espera_ia_min);
+    $('esperaConv').textContent = minutos(e.espera_conv_min);
+    $('concluidos').textContent = e.concluidos;
+    $('chegadas').textContent = e.chegadas;
+    $('recusas').textContent = e.recusas;
+    $('mediaHist').textContent = e.media_hist_min.toFixed(2) + ' min';
+    $('mediaUlt5').textContent = e.media_ult5_min.toFixed(2) + ' min';
+    $('medidos').textContent = e.atend_medidos;
+    $('heap').textContent = e.heap_livre != null
+      ? (e.heap_livre / 1024).toFixed(1) + ' KB / ' + (e.heap_min / 1024).toFixed(1) + ' KB' : '—';
+    $('rssi').textContent = e.rssi ? e.rssi + ' dBm' : '—';
+    $('uptime').textContent = e.uptime_s != null ? Math.floor(e.uptime_s / 60) + ' min ' + (e.uptime_s % 60) + ' s' : '—';
+    $('avisoDemo').textContent = e.fator_tempo > 1
+      ? 'Modo demonstração: 1 segundo na placa conta como ' + e.fator_tempo + ' segundos de posto.' : '';
+    const ult = pontos[pontos.length - 1];
+    if (!ult || ult.fila !== e.fila || Date.now() - ult.t > 5000) {
+      pontos.push({ t: Date.now(), fila: e.fila });
+      if (pontos.length > MAX_PONTOS) pontos.shift();
+      desenharGrafico();
+    }
+  }
+
+  function adicionarEvento(ev) {
+    if (eventos.some((x) => x.seq === ev.seq && x.instante === ev.instante)) return;   // repetido
+    eventos.unshift(ev);
+    if (eventos.length > MAX_EVENTOS) eventos.pop();
+    const corpo = $('eventos');
+    corpo.textContent = '';
+    for (const x of eventos) {
+      const tr = document.createElement('tr');
+      const erro = x.tipo.startsWith('erro');
+      [x.seq, hora(x.instante), NOMES[x.tipo] || x.tipo, x.fila, x.origem].forEach((v, i) => {
+        const td = document.createElement('td');
+        td.textContent = v;
+        if (i === 2 && erro) td.className = 'erro';
+        tr.appendChild(td);
+      });
+      corpo.appendChild(tr);
+    }
+  }
+
+  function desenharGrafico() {
+    const svg = $('grafico');
+    const W = 600, H = 140, M = 24;
+    const max = Math.max(4, ...pontos.map((p) => p.fila));
+    const cor = getComputedStyle(document.documentElement).getPropertyValue('--grafico').trim();
+    const suave = getComputedStyle(document.documentElement).getPropertyValue('--suave').trim();
+    let html = `<line x1="${M}" y1="${H - M}" x2="${W}" y2="${H - M}" stroke="${suave}" stroke-width="1"/>`
+             + `<text x="0" y="${M}" fill="${suave}" font-size="12">${max}</text>`
+             + `<text x="0" y="${H - M}" fill="${suave}" font-size="12">0</text>`;
+    if (pontos.length > 1) {
+      const t0 = pontos[0].t, t1 = pontos[pontos.length - 1].t || t0 + 1;
+      const x = (t) => M + (W - M) * (t - t0) / Math.max(1, t1 - t0);
+      const y = (f) => (H - M) - (H - 2 * M) * f / max;
+      let d = `M${x(pontos[0].t)},${y(pontos[0].fila)}`;
+      for (let i = 1; i < pontos.length; i++) d += ` H${x(pontos[i].t)} V${y(pontos[i].fila)}`;   // degraus
+      html += `<path d="${d}" fill="none" stroke="${cor}" stroke-width="3"/>`;
+    }
+    svg.innerHTML = html;
+  }
+
+  function baixarCsv() {
+    const linhas = [['seq', 'instante_epoch', 'horario', 'evento', 'fila_depois', 'origem']];
+    for (const x of [...eventos].reverse()) linhas.push([x.seq, x.instante, hora(x.instante), x.tipo, x.fila, x.origem]);
+    const blob = new Blob([linhas.map((l) => l.join(';')).join('\n')], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'eventos-fila-' + POSTO + '.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // ---- MQTT ----
+  if (!window.mqtt) {
+    mostrarConexao('erro', 'Não foi possível carregar a biblioteca MQTT (sem internet?)');
+    return;
+  }
+  const cliente = mqtt.connect(BROKER, {
+    clientId: 'painel-' + Math.random().toString(16).slice(2, 10),
+    reconnectPeriod: 3000, connectTimeout: 10000, clean: true
+  });
+  cliente.on('connect', () => {
+    conectado = true;
+    mostrarConexao('espera', 'Conectado à rede, aguardando o posto…');
+    cliente.subscribe([BASE + 'estado', BASE + 'evento']);
+    $('btnChegada').disabled = $('btnAtendido').disabled = false;
+  });
+  cliente.on('reconnect', () => mostrarConexao('espera', 'Reconectando…'));
+  cliente.on('close', () => {
+    conectado = false;
+    mostrarConexao('erro', 'Sem conexão com o servidor de mensagens');
+    $('btnChegada').disabled = $('btnAtendido').disabled = true;
+  });
+  cliente.on('message', (topico, payload) => {
+    let dado;
+    try { dado = JSON.parse(payload.toString()); } catch { return; }
+    if (topico.endsWith('/estado')) atualizarEstado(dado);
+    else if (topico.endsWith('/evento')) adicionarEvento(dado);
+  });
+
+  $('btnChegada').addEventListener('click', () => cliente.publish(BASE + 'comando', 'chegada'));
+  $('btnAtendido').addEventListener('click', () => cliente.publish(BASE + 'comando', 'atendido'));
+  $('btnCsv').addEventListener('click', baixarCsv);
+
+  setInterval(() => {
+    if (!conectado) return;
+    if (!ultimoEstadoEm) return;
+    const atraso = Date.now() - ultimoEstadoEm;
+    $('ultimaAtualizacao').textContent = 'há ' + Math.round(atraso / 1000) + ' s';
+    if (atraso > SEM_DADOS_MS) mostrarConexao('erro', 'Posto sem enviar dados há ' + Math.round(atraso / 1000) + ' s');
+    else mostrarConexao('ok', 'Posto online');
+  }, 1000);
+  desenharGrafico();
+})();
+</script>
+</body>
+</html>

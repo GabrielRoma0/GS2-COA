@@ -1,0 +1,37 @@
+{
+  "aviso": "Treinado com dados SIMULADOS (dados/historico_simulado.csv)",
+  "media_historica_min": 6.2433,
+  "b0": -2.0079,
+  "b1": 4.9289,
+  "b2": 0.1876,
+  "treino_n": 1201,
+  "teste_n": 426,
+  "comparacao": {
+    "todos": {
+      "n": 426,
+      "convencional": {
+        "mae": 2.48,
+        "rmse": 4.09,
+        "r2": 0.95
+      },
+      "ia": {
+        "mae": 1.99,
+        "rmse": 3.49,
+        "r2": 0.964
+      }
+    },
+    "fila >= 3": {
+      "n": 119,
+      "convencional": {
+        "mae": 4.77,
+        "rmse": 6.54,
+        "r2": 0.885
+      },
+      "ia": {
+        "mae": 4.34,
+        "rmse": 5.86,
+        "r2": 0.908
+      }
+    }
+  }
+}

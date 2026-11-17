@@ -1,0 +1,4 @@
+# Bibliotecas que o Wokwi instala (aba Library Manager)
+Adafruit SSD1306
+Adafruit GFX Library
+PubSubClient
