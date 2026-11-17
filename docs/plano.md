@@ -6,7 +6,7 @@ Contribuição da disciplina ao Mapiii (Citizen Assist AI). Escrito em 17/11/202
 
 ---
 
-> **Status 17/11/2026:** firmware (ESP32/Wokwi), lógica da fila com 39 testes, IA (regressão: erro médio 1,99 min × 2,48 min da média), painel web testado de ponta a ponta pelo broker público, simulador Python (plano B, coerente com o firmware), diagrama, relatório técnico, testes e roteiro do vídeo prontos. **Verificado no Wokwi (17/11):** compila, conecta, publica e responde a botões, serial e comandos remotos. **Falta da dupla:** montar o projeto no Wokwi e salvar o link, rodar os 4 testes com prints, preencher os [PREENCHER] (valores da tecla `m`, links, conclusão), publicar o painel no GitHub Pages, gravar o vídeo, entregar.
+> **Status 17/11/2026:** firmware (ESP32/Wokwi), lógica da fila com 39 testes, IA (regressão: erro médio 1,99 min × 2,48 min da média), painel web testado de ponta a ponta pelo broker público, simulador Python (plano B, coerente com o firmware), diagrama, relatório técnico, testes e roteiro do vídeo prontos. **Verificado no Wokwi (17/11):** compila, conecta, publica e responde a botões, serial e comandos remotos. **Falta da dupla:** ver [PENDENCIAS.md](../PENDENCIAS.md) (conclusão do relatório, vídeo, entrega).
 
 ## 0. O que o professor vai cobrar (resumo do enunciado)
 

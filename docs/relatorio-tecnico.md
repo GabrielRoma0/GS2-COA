@@ -7,7 +7,7 @@
 | Gabriel Botelho Romão | 570589 |
 | Thor Ferreira Camargo | 569543 |
 
-> Os campos marcados **[PREENCHER]** recebem os valores medidos na placa (Monitor Serial do Wokwi, tecla `m`) e os links. Não deixe nenhum na entrega.
+> **Antes de entregar:** escrever a conclusão da dupla (último parágrafo, marcado com [PREENCHER]) e exportar este arquivo para PDF/DOCX se o Portal pedir. Ver [PENDENCIAS.md](../PENDENCIAS.md).
 
 ---
 
@@ -195,11 +195,11 @@ Detalhes e evidências em [`testes.md`](testes.md). Resumo:
 | Lógica da fila (4 testes mínimos + limites) | `make test`: 39 verificações em C++ com AddressSanitizer | 39/39 ✅ |
 | Coerência firmware × simulador | `make coerencia`: mesma sequência no C++ e no Python | idênticos ✅ |
 | Comunicação ponta a ponta | simulador → broker público → painel no navegador, mais o botão virtual voltando | ✅ (17/11/2026) |
-| Os 4 testes mínimos no Wokwi, com a placa | firmware compilado e rodando no Wokwi; eventos conferidos no broker | ✅ (17/11/2026), faltam só os prints da dupla |
+| Os 4 testes mínimos no Wokwi, com a placa e o painel publicado | roteiro e prints em `testes.md` | ✅ 4/4 + 3 extras (17/11/2026) |
 
 ## 8. Como executar
 
-Ver o [README](../README.md): link do projeto no Wokwi **[PREENCHER]**, painel e plano B.
+Projeto no Wokwi: https://wokwi.com/projects/480979792844066817 · Painel: https://gabrielroma0.github.io/GS2-COA/painel/ · Detalhes e plano B no [README](../README.md).
 
 ## 9. Conclusão
 

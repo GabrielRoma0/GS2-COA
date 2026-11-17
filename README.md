@@ -7,9 +7,9 @@
 | Gabriel Botelho Romão | 570589 |
 | Thor Ferreira Camargo | 569543 |
 
-- **Projeto no Wokwi:** [PREENCHER link]
-- **Painel online:** [PREENCHER link do GitHub Pages], ou abra `painel/index.html` no navegador
-- **Vídeo (até 5 min):** [PREENCHER link]
+- **Projeto no Wokwi:** https://wokwi.com/projects/480979792844066817
+- **Painel online:** https://gabrielroma0.github.io/GS2-COA/painel/ (ou abra `painel/index.html` no navegador)
+- **Vídeo (até 5 min):** _a gravar, ver [PENDENCIAS.md](PENDENCIAS.md)_
 - **Relatório técnico:** [docs/relatorio-tecnico.md](docs/relatorio-tecnico.md) · **Diagrama:** [docs/arquitetura.png](docs/arquitetura.png)
 
 > Protótipo de estudo. A previsão foi treinada com **dados simulados** (`dados/historico_simulado.csv`), identificados como tal em todo o projeto.
@@ -24,11 +24,9 @@
 
 ## Como rodar no Wokwi (a placa)
 
-1. Abra https://wokwi.com/projects/new/esp32 (entre com uma conta para poder salvar).
-2. Substitua o conteúdo de `sketch.ino` e `diagram.json` pelos arquivos de [`firmware/`](firmware/).
-3. Crie os arquivos `fila.h`, `modelo.h` e `libraries.txt` (botão ▾ ao lado das abas → *New file…*) com o conteúdo dos arquivos de mesmo nome de [`firmware/`](firmware/).
-4. Clique em ▶ (Start). O Monitor Serial mostra o relatório de hardware e `[mqtt] conectando a broker.hivemq.com ... ok`.
-5. Abra o painel (abaixo) e aperte os botões verde (chegada) e azul (atendido) no Wokwi.
+1. Abra o projeto pronto: https://wokwi.com/projects/480979792844066817 (já tem os arquivos de [`firmware/`](firmware/) e as bibliotecas).
+2. Clique em ▶ (Start). O Monitor Serial mostra o relatório de hardware e `[mqtt] conectando a broker.hivemq.com ... ok`.
+3. Abra o painel (abaixo) e aperte os botões verde (chegada) e azul (atendido) no Wokwi.
 
 Monitor Serial: `c` = chegada, `a` = atendido, `l` = lista o registro de eventos, `m` = relatório de CPU e memória.
 
@@ -42,7 +40,7 @@ make painel
 
 e acesse http://localhost:8765. Outro posto: `index.html?posto=nome-do-posto`, com o mesmo nome em `POSTO` no `sketch.ino`.
 
-Para publicar no **GitHub Pages**: Settings → Pages → *Deploy from a branch* → `main` / pasta raiz, e use o endereço `.../painel/`.
+Publicado no GitHub Pages: https://gabrielroma0.github.io/GS2-COA/painel/
 
 ## Plano B: posto simulado em Python
 
@@ -70,7 +68,7 @@ make treinar
 - `make coerencia`: firmware × simulador.
 - `make treinar`: regenera o histórico simulado e o modelo (atualiza `firmware/modelo.h`).
 
-Evidências em [docs/testes.md](docs/testes.md).
+Evidências em [docs/testes.md](docs/testes.md) e prints em [docs/prints/](docs/prints/).
 
 ## Estrutura
 

@@ -2,20 +2,21 @@
 
 ## 1. Os 4 testes mínimos do enunciado, na placa (Wokwi)
 
-**A dupla executa no Wokwi com o painel aberto ao lado, tira um print de cada passo (OLED + painel + Monitor Serial) e salva em `docs/prints/`.** Antes, abrir o Monitor Serial e esperar aparecer `[mqtt] conectando a broker.hivemq.com ... ok`.
+Executados em 17/11/2026 no projeto salvo (https://wokwi.com/projects/480979792844066817), com a simulação a ~60–99% da velocidade real e o painel publicado (https://gabrielroma0.github.io/GS2-COA/painel/) aberto ao lado. As operações foram feitas pelo Monitor Serial (`c`/`a`), que chamam as mesmas funções dos botões; os botões físicos e o virtual foram testados à parte (extras).
 
-| # | Passo | Resultado esperado | Observado / print |
-|---|---|---|---|
-| 1 | **Chegada de novos cidadãos:** apertar CHEGADA 3 vezes, com ~5 s entre elas | OLED e painel: fila 1 → 2 → 3; LED verde pisca a cada vez; 3 linhas "Chegada" no registro do painel, com horário; Serial `[evento] {"tipo":"chegada"...}` | **[PREENCHER]** |
-| 2 | **Conclusão de atendimentos:** esperar ~6 s e apertar ATENDIDO 2 vezes (com ~6 s entre elas) | fila 3 → 2 → 1; "atendidos" 0 → 1 → 2; "Atendimentos medidos pela placa" no painel sobe; "Média dos últimos 5" fica perto de 6 min (modo demo: 6 s = 6 min) | **[PREENCHER]** |
-| 3 | **Saída com fila vazia:** apertar ATENDIDO até zerar e mais uma vez | a última tentativa é **recusada**: fila continua 0 (não fica −1), LED **vermelho**, OLED "Fila vazia!", painel mostra "Bloqueado: fila vazia" em vermelho no registro e "operações bloqueadas" sobe para 1 | **[PREENCHER]** |
-| 4 | **Atualização da estimativa:** com a fila em 0, apertar CHEGADA 4 vezes; depois fazer 2 atendimentos **lentos** (~12 s cada) e comparar | a cada chegada as duas estimativas sobem (IA e média); depois dos atendimentos lentos, a "Média dos últimos 5" sobe e a previsão da IA aumenta para o mesmo tamanho de fila | **[PREENCHER]** |
-| extra | Botão virtual "Registrar chegada" no painel | a placa recebe, valida e o OLED muda; o registro mostra origem "painel" | **[PREENCHER]** |
-| extra | Desligar o Wi-Fi não é possível no Wokwi; em vez disso, pausar a simulação por 20 s | painel mostra "Posto sem enviar dados há N s"; ao continuar volta para "Posto online" | **[PREENCHER]** |
+| # | Passo | Resultado esperado | Observado | Print |
+|---|---|---|---|---|
+| 1 | **Chegada de novos cidadãos:** 3 chegadas, ~2 s entre elas | fila 1 → 2 → 3; eventos com horário; estimativa aparece | eventos 1–3 `chegada` com hora real (NTP); OLED "3 na fila", IA 16 min × média 19 min | [03](prints/03-teste1-chegadas.jpg) |
+| 2 | **Conclusão de atendimentos:** 2 atendimentos (~5 s cada) | fila 3 → 2 → 1; concluídos sobem; duração medida | eventos 4–5 `atendido`; OLED "1 na fila · 2 atendidos", IA 4 min × média 6 min | [04](prints/04-teste2-atendimentos.jpg) |
+| 3 | **Saída com fila vazia:** atender até zerar e mais uma vez | a última é **recusada**: fila fica 0, LED vermelho, aviso, evento de erro | evento 6 zera a fila; evento 7 **`erro_fila_vazia`** com fila 0; OLED "Fila vazia!"; painel: "Bloqueado: fila vazia" em vermelho e 1 operação bloqueada | [05](prints/05-teste3-fila-vazia-bloqueada.jpg), [08](prints/08-painel-registro-e-botao-virtual.jpg) |
+| 4 | **Atualização da estimativa:** 4 chegadas; 2 atendimentos **lentos** (~15 s e ~11 s); nova chegada | estimativas sobem com a fila; depois dos atendimentos lentos, para o **mesmo** tamanho de fila a previsão da IA é maior | com 3 na fila: IA **16 min** antes × **19 min** depois dos atendimentos lentos (média histórica: 19 → 22 min); "média dos últimos 5" subiu para 11,07 min | [06](prints/06-teste4-estimativa-sobe-com-atendimento-lento.jpg), [07](prints/07-painel-online-com-a-placa.jpg) |
+| extra | Botão virtual "Registrar chegada" no painel | a placa recebe, valida e o registro mostra origem "painel" | evento 15 `chegada`, origem **painel**, fila 3 → 4 | [08](prints/08-painel-registro-e-botao-virtual.jpg) |
+| extra | Pausar a simulação por ~20 s (simula queda de rede) | painel avisa "Posto sem enviar dados há N s" | "Posto sem enviar dados há 22 s"; ao continuar, volta para "Posto online" | [09](prints/09-painel-posto-sem-dados.jpg) |
+| extra | Botão físico CHEGADA (GPIO 18) segurado 8 s | **um** evento só (debounce) | evento com origem **botao**, fila +1 | [10](prints/10-botao-fisico-chegada.png) |
 
-Dica: tecla `l` no Monitor Serial lista o registro de eventos guardado na RAM; tecla `m` mostra o relatório de CPU e memória (vai para o relatório técnico, seção 6).
+Outros prints: [01](prints/01-boot-relatorio-hardware.jpg) relatório de hardware no boot ([zoom](prints/01b-relatorio-hardware-zoom.png)), [02](prints/02-wifi-mqtt-conectado.jpg) Wi-Fi e MQTT conectados, [11](prints/11-painel-com-simulador-plano-b.jpg) painel com o simulador Python (plano B).
 
-### Execução de verificação no Wokwi (feita em 17/11/2026, antes dos prints)
+### Primeira execução no Wokwi (17/11/2026, projeto ainda não salvo)
 
 O firmware foi colado num projeto novo do Wokwi, compilou sem erro e rodou. Um assinante MQTT no PC registrou o que a placa publicou no broker real:
 
