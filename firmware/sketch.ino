@@ -1,6 +1,6 @@
 // =====================================================================
 // Sistema Inteligente de Gerenciamento de Filas Virtuais - Mapiii
-// GS 2026.2 · Arquitetura e Organizacao de Computadores · 1CC-FEV
+// GS 2026.2 · Arquitetura e Organizacao de Computadores · 1CCR
 //
 // ESP32 (simulado no Wokwi) com:
 //   ENTRADA : botao CHEGADA (GPIO 18), botao ATENDIDO (GPIO 19),

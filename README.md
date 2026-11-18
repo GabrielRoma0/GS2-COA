@@ -1,6 +1,6 @@
 # Fila virtual inteligente · COA (GS 2026.2)
 
-**Sistema Inteligente de Gerenciamento de Filas Virtuais** para um posto de atendimento à pessoa com deficiência. Disciplina **Computer Organization and Architecture**, turma 1CC-FEV, projeto integrador Citizen Assist AI (nosso assistente: **Mapiii**).
+**Sistema Inteligente de Gerenciamento de Filas Virtuais** para um posto de atendimento à pessoa com deficiência. Disciplina **Computer Organization and Architecture**, turma 1CCR, projeto integrador Citizen Assist AI (nosso assistente: **Mapiii**).
 
 | Nome | RM |
 |---|---|

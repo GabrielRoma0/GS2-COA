@@ -14,7 +14,11 @@ O firmware no Wokwi, o painel publicado, a IA, os testes com prints, o diagrama 
 
 **Pronto quando:** não aparece mais "PREENCHER" no relatório.
 
-## 2. [ ] Gravar o vídeo (até 5 min)
+## 2. [ ] Subir o vídeo (até 5 min)
+
+> **Vídeo pronto, com a sua voz:** `video/coa-demonstracao-com-voz.mp4` (3:47), com a gravação real do Wokwi e do painel, legendas e as 18 falas encaixadas no tempo de cada uma. Só assistir uma vez, subir no YouTube como **não listado** e colar o link no README (item 3). Os `.mp4` e os áudios não vão para o GitHub.
+
+**Se preferirem gravar a tela vocês mesmos** (em vez de usar o vídeo pronto):
 
 1. Abrir duas janelas lado a lado:
    - o Wokwi: https://wokwi.com/projects/480979792844066817
@@ -35,7 +39,11 @@ O firmware no Wokwi, o painel publicado, a IA, os testes com prints, o diagrama 
 
 No GitHub: abrir [`README.md`](README.md) → lápis ✏️ → trocar a linha `- **Vídeo (até 5 min):** _a gravar..._` por `- **Vídeo (até 5 min):** <link do YouTube>` → *Commit changes*.
 
-## 4. [ ] Entregar no Portal
+## 4. [ ] (1 min, opcional) Corrigir a turma no Wokwi
+
+No projeto do Wokwi (logado), no `sketch.ino`, linha 3: trocar `1CC-FEV` por `1CCR` e clicar em **Save**. É só um comentário, então não muda o funcionamento; o arquivo no GitHub já está certo.
+
+## 5. [ ] Entregar no Portal
 
 1. Conferir no Portal o formato pedido: link do repositório, ZIP, PDF do relatório ou `.txt`.
 2. Mandar:

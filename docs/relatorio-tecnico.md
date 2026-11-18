@@ -1,6 +1,6 @@
 # Relatório técnico · Sistema Inteligente de Gerenciamento de Filas Virtuais
 
-**GS 2026.2 · Computer Organization and Architecture · turma 1CC-FEV · projeto integrador Citizen Assist AI (Mapiii)**
+**GS 2026.2 · Computer Organization and Architecture · turma 1CCR · projeto integrador Citizen Assist AI (Mapiii)**
 
 | Nome | RM |
 |---|---|

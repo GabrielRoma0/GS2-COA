@@ -1,6 +1,6 @@
 # GS 2026.2 · Computer Organization and Architecture (COA) · Plano de trabalho
 
-Contribuição da disciplina ao Mapiii (Citizen Assist AI). Escrito em 17/11/2026 a partir do enunciado `GS2026_2_Arquitetura_Organizacao_Computadores.pdf` (turma 1CC-FEV, vale 100 pontos): **Sistema Inteligente de Gerenciamento de Filas Virtuais**.
+Contribuição da disciplina ao Mapiii (Citizen Assist AI). Escrito em 17/11/2026 a partir do enunciado `GS2026_2_Arquitetura_Organizacao_Computadores.pdf` (turma 1CCR, vale 100 pontos): **Sistema Inteligente de Gerenciamento de Filas Virtuais**.
 
 > **Regra desta pasta:** nada daqui vai para o repositório oficial (`mapiii-assistente` / `GS-2SEM-2026`) e nada é mexido lá. O Mapiii serve só de **base** (público, tom, regra de dado identificado). A entrega de COA é uma pasta/repositório **separado**.
 
