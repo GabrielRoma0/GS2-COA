@@ -2,7 +2,7 @@
 
 O firmware no Wokwi, o painel publicado, a IA, os testes com prints, o diagrama e o relatório já estão prontos. Faltam 4 coisas, todas da dupla:
 
-## 1. [ ] Escrever a conclusão do relatório (10 min)
+## 1. [x] Escrever a conclusão do relatório (feito em 17/11; revisar se quiserem mudar alguma frase)
 
 1. Abrir [`docs/relatorio-tecnico.md`](docs/relatorio-tecnico.md) (no VS Code, ou no GitHub com o lápis ✏️).
 2. No **último parágrafo**, trocar `**[PREENCHER: 2–3 frases da dupla sobre o que aprenderam.]**` por 2–3 frases de vocês. Ideias do que dizer:
@@ -14,7 +14,7 @@ O firmware no Wokwi, o painel publicado, a IA, os testes com prints, o diagrama 
 
 **Pronto quando:** não aparece mais "PREENCHER" no relatório.
 
-## 2. [ ] Subir o vídeo (até 5 min)
+## 2. [x] Subir o vídeo (feito: https://youtu.be/AqaBxOGu3d0)
 
 > **Vídeo pronto, com a sua voz:** `video/coa-demonstracao-com-voz.mp4` (3:47), com a gravação real do Wokwi e do painel, legendas e as 18 falas encaixadas no tempo de cada uma. Só assistir uma vez, subir no YouTube como **não listado** e colar o link no README (item 3). Os `.mp4` e os áudios não vão para o GitHub.
 
@@ -35,7 +35,7 @@ O firmware no Wokwi, o painel publicado, a IA, os testes com prints, o diagrama 
 
 **Pronto quando:** o vídeo tem até 5:00 e o link abre numa aba anônima.
 
-## 3. [ ] Colar o link do vídeo no README
+## 3. [x] Colar o link do vídeo no README (feito)
 
 No GitHub: abrir [`README.md`](README.md) → lápis ✏️ → trocar a linha `- **Vídeo (até 5 min):** _a gravar..._` por `- **Vídeo (até 5 min):** <link do YouTube>` → *Commit changes*.
 

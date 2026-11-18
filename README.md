@@ -9,7 +9,7 @@
 
 - **Projeto no Wokwi:** https://wokwi.com/projects/480979792844066817
 - **Painel online:** https://gabrielroma0.github.io/GS2-COA/painel/ (ou abra `painel/index.html` no navegador)
-- **Vídeo (até 5 min):** _a gravar, ver [PENDENCIAS.md](PENDENCIAS.md)_
+- **Vídeo (até 5 min):** https://youtu.be/AqaBxOGu3d0
 - **Relatório técnico:** [docs/relatorio-tecnico.md](docs/relatorio-tecnico.md) · **Diagrama:** [docs/arquitetura.png](docs/arquitetura.png)
 
 > Protótipo de estudo. A previsão foi treinada com **dados simulados** (`dados/historico_simulado.csv`), identificados como tal em todo o projeto.

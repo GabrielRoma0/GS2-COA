@@ -7,8 +7,6 @@
 | Gabriel Botelho Romão | 570589 |
 | Thor Ferreira Camargo | 569543 |
 
-> **Antes de entregar:** escrever a conclusão da dupla (último parágrafo, marcado com [PREENCHER]) e exportar este arquivo para PDF/DOCX se o Portal pedir. Ver [PENDENCIAS.md](../PENDENCIAS.md).
-
 ---
 
 ## 1. Problema e cenário
@@ -203,4 +201,6 @@ Projeto no Wokwi: https://wokwi.com/projects/480979792844066817 · Painel: https
 
 ## 9. Conclusão
 
-O protótipo mostra o caminho completo de um sistema computacional: sinais elétricos dos botões viram dados na memória, são processados pela CPU (regras e previsão), voltam ao mundo físico pelo display e pelos LEDs e saem pela rede até o navegador. A previsão por regressão superou a média histórica nos dados de teste, e as limitações de memória e de conectividade foram tratadas para a fila nunca parar no posto. **[PREENCHER: 2–3 frases da dupla sobre o que aprenderam.]**
+O protótipo mostra o caminho completo de um sistema computacional: sinais elétricos dos botões viram dados na memória, são processados pela CPU (regras e previsão), voltam ao mundo físico pelo display e pelos LEDs e saem pela rede até o navegador. A previsão por regressão superou a média histórica nos dados de teste, e as limitações de memória e de conectividade foram tratadas para a fila nunca parar no posto.
+
+O que mais nos marcou foi ver a teoria da disciplina aparecer no comportamento real do sistema. Um detalhe de saída, redesenhar o display pelo barramento I2C dez vezes por segundo, era o que mais consumia a CPU e deixava a simulação lenta, e redesenhar só quando algo muda resolveu. Também aprendemos que memória e comunicação são decisões de projeto: medir na placa mostrou que o nosso programa usa cerca de 1% da RAM, enquanto a pilha de rede consome perto de 100 KB, e o atraso da simulação derrubava a conexão MQTT até ajustarmos o keep-alive. Com mais tempo, levaríamos o protótipo para uma placa física, usaríamos um broker com autenticação e retreinaríamos o modelo com dados reais de um posto, para saber se a previsão continua melhor que a média.
